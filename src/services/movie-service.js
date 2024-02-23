@@ -18,11 +18,15 @@ class MovieService {
       `${this._api}/movie/popular?${this._apiLang}&${this._apiKey}`
     );
   };
+
   getMovieTranding = async () => {
-    return this.getResorce(
+    const response = await this.getResorce(
       `${this._api}/movie/top_rated?${this._apiLang}&${this._apiKey}`
     );
+    const movies = response.results;
+    return movies && movies.map((movie) => this._transformMovie(movie));
   };
+
   getDetalieMovie = async (id) => {
     return this.getResorce(
       `${this._api}/movie/${id}?${this._apiLang}&${this._apiKey}`
@@ -41,6 +45,8 @@ class MovieService {
       description: movie.overview,
       thumbnail: `${this._apiImg}${movie.poster_path}`,
       id: movie.id,
+      release_date: movie.release_date,
+      vote_average: movie.vote_average,
     };
   };
 }
