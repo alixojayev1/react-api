@@ -4,8 +4,7 @@ import Hero from "../hero/hero";
 import RowMovies from "../row-movies/row-movies";
 
 const App = () => {
-  const movieService = new MovieService();
-  movieService.getMovieTranding().then((data) => console.log(data));
+  
   return (
     <div className="app">
       <Header />
