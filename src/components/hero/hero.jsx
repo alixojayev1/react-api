@@ -30,7 +30,7 @@ class Hero extends React.Component {
     const { movie, loading, error } = this.state;
     const errorContent = error ? <Error /> : null;
     const loaderContent = loading ? <Spiner /> : null;
-    const content = !(error || loading) ? <Content movie={movie} /> : null;
+    const content = !(error || loading) ? <Content movie={movie}  getMovie={this.getMovie}/> : null;
     return (
       <div className="app__hero">
         <div className="app__hero-info">
@@ -42,12 +42,14 @@ class Hero extends React.Component {
             quasi, sequi odit doloremque velit saepe autem facilis! Laudantium
             consequatur accusantium mollitia.
           </p>
-          <button className="btn btn__primary">DETAILS</button>
+          <button className="btn btn__primary" >
+            DETAILS
+          </button>
         </div>
         <div className="app__hero-moive">
           {errorContent}
           {loaderContent}
-          {content}
+          {content }
         </div>
       </div>
     );
@@ -56,7 +58,7 @@ class Hero extends React.Component {
 
 export default Hero;
 
-const Content = ({ movie }) => {
+const Content = ({ movie , getMovie }) => {
   return (
     <>
       <img src={movie.thumbnail} alt="img" />
@@ -68,8 +70,8 @@ const Content = ({ movie }) => {
             : movie.description}
         </p>
         <div>
-          <button className="btn btn__secondary">RANDOM MOVIE</button>
-          <button className="btn btn__primary">DETAILS</button>
+          <button className="btn btn__secondary"onClick={getMovie} >RANDOM MOVIE</button>
+          <button className="btn btn__primary" >DETAILS</button>
         </div>
       </div>
     </>
