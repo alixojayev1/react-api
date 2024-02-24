@@ -5,38 +5,31 @@ import "react-responsive-modal/styles.css";
 import React from "react";
 import MovieInfo from "../movie-info/movie-info";
 import MovieService from "../../services/movie-service";
-import Error from "../er/error";
-import Spiner from "../spiner/spiner";
+
 
 class RowMovies extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-      movies: [],
-    };
-    this.movieService = new MovieService();
-  }
+  state = {
+    open: false,
+    movies: [],
+    movieId: null,
+  };
+
+  movieService = new MovieService();
+
   componentDidMount() {
     this.getTrendingMovie();
   }
-  onToggleOpen = () => {
-    this.setState(({ open }) => ({ open: !open }));
-  };
+  onOpen = (id) => this.setState({ open: true, movieId: id  });
+  onClose = () => this.setState({ open: false});
 
   getTrendingMovie = () => {
-    this.movieService
-      .getMovieTranding()
-      .then((res) => {this.setState({ movies: res });})
-      .catch(() => this.setState({ error: true }))
-      .finally(() => this.setState({ loading: false }));
+    this.movieService.getMovieTranding().then((res) => {
+      this.setState({ movies: res });
+    });
   };
 
   render() {
-    const { open, movies, error, loading } = this.state;
-    // const errorContent = error ? <Error /> : null;
-    // const loadingContent = loading ? <Spiner /> : null;
-    // const content = !(error || loading) ? <Content movies={movies} /> : null;
+    const { open, movies, movieId } = this.state;
 
     return (
       <div className="app__rowmovie">
@@ -51,15 +44,11 @@ class RowMovies extends React.Component {
 
         <div className="app__rowmovie-lists">
           {movies.map((movie) => (
-            <RowMoviesItem
-              key={movie.id}
-              movie={movie}
-              onToggleOpen={this.onToggleOpen}
-            />
+            <RowMoviesItem key={movie.id} movie={movie} onOpen={this.onOpen} />
           ))}
         </div>
-        <Modal open={open} onClose={this.onToggleOpen}>
-          <MovieInfo />
+        <Modal open={open} onClose={this.onClose}>
+          <MovieInfo movieId={movieId} />
         </Modal>
       </div>
     );

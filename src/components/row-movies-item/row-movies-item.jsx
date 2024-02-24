@@ -1,9 +1,9 @@
 import "./row-movies-item.scss";
 
-const RowMoviesItem = ({ movie, onToggleOpen }) => {
+const RowMoviesItem = ({ movie, onOpen }) => {
   
   return (
-    <div className="list__item" onClick={onToggleOpen}>
+    <div className="list__item" onClick={()=>onOpen(movie.id)}>
       <img src={movie.thumbnail} alt={movie.title} />
       <h2>{movie.name.length > 15 ? `${movie.name.slice(0,15)}...` : movie.name}</h2>
       <div className="list__item-descr">
