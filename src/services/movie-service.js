@@ -3,6 +3,7 @@ class MovieService {
   _apiLang = "language=en-US";
   _apiKey = "api_key=a36c6fcbfb6dd5a72e28fbf2c19c3970";
   _apiImg = "https://image.tmdb.org/t/p/original";
+  _apiPage = 1;
 
   getResorce = async (url) => {
     const response = await fetch(url);
@@ -19,9 +20,9 @@ class MovieService {
     );
   };
 
-  getMovieTranding = async () => {
+  getMovieTranding = async (page = this._apiPage) => {
     const response = await this.getResorce(
-      `${this._api}/movie/top_rated?${this._apiLang}&${this._apiKey}`
+      `${this._api}/movie/top_rated?${this._apiLang}&page=${page}&${this._apiKey}`
     );
     const movies = response.results;
     return movies && movies.map((movie) => this._transformMovie(movie));
@@ -31,7 +32,7 @@ class MovieService {
     const movie = await this.getResorce(
       `${this._api}/movie/${id}?${this._apiLang}&${this._apiKey}`
     );
-    return this._transformMovie(movie)
+    return this._transformMovie(movie);
   };
 
   getRandomMovie = async () => {
